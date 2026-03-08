@@ -1,1 +1,13 @@
 .env
+env/
+secrets/
+
+# ignore logs
+*.log
+log/
+
+__pycache__/
+
+# Work-in-progress files (naming convention)
+wip_*
+*.wip
