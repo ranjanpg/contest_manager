@@ -30,7 +30,8 @@ class CalendarNotifier(BaseNotifier):
 
         if not os.path.exists(CREDENTIALS_FILE):
             logger.error(
-                f"'{CREDENTIALS_FILE}' not found. Please download it from Google Cloud Console "
+                f"'{CREDENTIALS_FILE}' not found. "
+                "Please download it from Google Cloud Console "
                 "and place it in the project root."
             )
             return None
@@ -92,7 +93,10 @@ class CalendarNotifier(BaseNotifier):
 
         event_body = {
             "summary": f"{contest.host.capitalize()}: {contest.name}",
-            "description": f"Coding contest on {contest.host.capitalize()}.\n\nJoin at: {contest.url}",
+            "description": (
+                f"Coding contest on {contest.host.capitalize()}."
+                f"\n\nJoin at: {contest.url}"
+            ),
             "start": {
                 "dateTime": start_utc.isoformat(),
                 "timeZone": "UTC",
@@ -107,7 +111,8 @@ class CalendarNotifier(BaseNotifier):
             },
             "extendedProperties": {
                 "private": {
-                    "contestId": contest.unique_key,  # Unique contest key stored as a private extended property for dedup
+                    # Unique contest key stored as a private extended property for dedup
+                    "contestId": contest.unique_key,
                 }
             },
             "reminders": {
@@ -126,11 +131,8 @@ class CalendarNotifier(BaseNotifier):
                 .execute()
             )
             logger.info(
-                f"Created Google Calendar event: '{created['summary']}' -> {created.get('htmlLink')}"
+                f"Created Google Calendar event: '{created['summary']}'->{created.get('htmlLink')}"
             )
-            # logger.info(
-            #     f"Would have created Google Calendar event: '{event_body['summary']}' -> {event_body['start']['dateTime']}"
-            # )
         except HttpError as e:
             logger.error(
                 f"Failed to create event for '{contest.name}': {e}", exc_info=True
@@ -161,7 +163,8 @@ class CalendarNotifier(BaseNotifier):
                 created_count += 1
 
         logger.info(
-            f"Calendar sync complete: {created_count} created, {skipped_count} skipped (already existed)."
+            f"Calendar sync complete: {created_count} created, "
+            f"{skipped_count} skipped (already existed)."
         )
 
     def send_performance_report(
