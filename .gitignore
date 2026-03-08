@@ -5,9 +5,13 @@ secrets/
 # ignore logs
 *.log
 log/
+logs/
 
 __pycache__/
 
 # Work-in-progress files (naming convention)
 wip_*
 *.wip
+
+db_data/
+*.db
