@@ -1,11 +1,14 @@
 import sqlite3
+import os
 from typing import List
 from models import Contest, UserPerformance, ProblemTag
 from datetime import datetime
 
+_DEFAULT_DB = os.path.join(os.path.dirname(os.path.abspath(__file__)), "contests.db")
+
 
 class Database:
-    def __init__(self, db_path: str = "contests.db"):
+    def __init__(self, db_path: str = _DEFAULT_DB):
         self.db_path = db_path
         self._init_db()
 

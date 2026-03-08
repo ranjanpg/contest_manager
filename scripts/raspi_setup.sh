@@ -28,7 +28,8 @@ sudo apt-get install -y python3 python3-pip python3-venv git
 # ── 2. Create log directory ───────────────────────────────────────────────────
 echo "[2/6] Creating log directory at $LOG_DIR..."
 sudo mkdir -p "$LOG_DIR"
-sudo chown "$USER":"$USER" "$LOG_DIR"
+REAL_USER="${SUDO_USER:-$USER}"
+sudo chown "$REAL_USER":"$REAL_USER" "$LOG_DIR"
 
 # ── 3. Python virtual environment ─────────────────────────────────────────────
 echo "[3/6] Setting up Python virtual environment..."
@@ -79,7 +80,7 @@ Wants=network-online.target
 
 [Service]
 Type=simple
-User=$USER
+User=$REAL_USER
 WorkingDirectory=$APP_DIR
 EnvironmentFile=$APP_DIR/.env
 ExecStart=$VENV_DIR/bin/python $APP_DIR/main.py
